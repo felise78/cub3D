@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:37:07 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/18 20:19:32 by hemottu          ###   ########.fr       */
+/*   Updated: 2023/12/19 12:21:55 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,14 @@
 #include <X11/keysym.h>
 
 int	handle_keypress(int keysym, t_win *win);
+int handle_keyrelease(int keysym, t_win *win);
 
 int	ft_close_window(t_win *win)
 {
-	// if (game->floor)
-	// 	mlx_destroy_image(game->mlx_ptr, game->floor);
-	// if (game->wall)
-	// 	mlx_destroy_image(game->mlx_ptr, game->wall);
-	// if (game->key)
-	// 	mlx_destroy_image(game->mlx_ptr, game->key);
-	// if (game->bat)
-	// 	mlx_destroy_image(game->mlx_ptr, game->bat);
-	// if (game->exit)
-	// 	mlx_destroy_image(game->mlx_ptr, game->exit);
+	// bien free tout ce qu'il y a a free ici
 	mlx_destroy_window(win->mlx_ptr, win->win_ptr);
 	mlx_destroy_display(win->mlx_ptr);
 	free(win->mlx_ptr);
-	//ft_free(win->map);
 	exit(0);
 }
 
@@ -49,16 +40,10 @@ void	ft_create_window(t_win *win)
 		mlx_destroy_display(win->mlx_ptr);
 		return ;
 	}
-	// if (!ft_load_textures(game))
-	// {
-	// 	ft_putstr("Error\nDid not find all the images\n");
-	// 	ft_close_window(game);
-	// 	return ;
-	// }
-	//ft_draw_img(game);
-	//game->g_exit = 0;
+	// loader les textures
+	// draw la premiere image
 	mlx_hook(win->win_ptr, DestroyNotify, 0, ft_close_window, win);
 	mlx_hook(win->win_ptr, KeyPress, KeyPressMask, handle_keypress, win);
-	// je crois il faut aussi gerer le key release 
+	mlx_hook(win->win_ptr, KeyRelease, KeyReleaseMask, handle_keyrelease, win);// je crois il faut aussi gerer le key release 
 	mlx_loop(win->mlx_ptr);
 }

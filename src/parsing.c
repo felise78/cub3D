@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:31:46 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/18 16:19:23 by hemottu          ###   ########.fr       */
+/*   Updated: 2023/12/19 12:12:14 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	ft_check_file_ext(char *s)
 	}
 	if (!s[len])
 	{
-		ft_putstr_fd("Error\nFile is a hidden file\n", 2);
+		// est-ce que c'est vraiment une erreur si y'a juste '.cub' ?
+		ft_putstr_fd("Error\n.cub is just an extension\n", 2);
 		return (0);
 	}
 	return (1);

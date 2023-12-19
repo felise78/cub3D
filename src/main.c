@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:31:43 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/18 18:59:52 by hemottu          ###   ########.fr       */
+/*   Updated: 2023/12/19 12:08:03 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int main (int ac, char **av)
 		ft_putstr_fd("Error\nCould not open the file\n", 2);
 		return (1);
 	}
+	// parser la carte
 	ft_create_window(&win);
 }
