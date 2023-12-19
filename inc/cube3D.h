@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window.h                                           :+:      :+:    :+:   */
+/*   cube3D.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 18:56:05 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/19 12:40:27 by hemottu          ###   ########.fr       */
+/*   Created: 2023/12/19 12:59:49 by hemottu           #+#    #+#             */
+/*   Updated: 2023/12/19 13:12:14 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WINDOW_H
-# define WINDOW_H
+#ifndef CUBE3D_H
+# define CUBE3D_H
 
-	typedef struct s_win
+	#include "window.h"
+	#include "textures.h"
+
+	typedef struct s_win t_win;
+	
+	typedef struct s_cub
 	{
-		void	*mlx_ptr;
-		void	*win_ptr;
-	}				t_win;
+		t_win	*win;
+		t_tex	*textures;
+		int		fd;
+	}				t_cub;
 
 #endif

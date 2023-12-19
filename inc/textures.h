@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window.h                                           :+:      :+:    :+:   */
+/*   textures.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/18 18:56:05 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/19 12:40:27 by hemottu          ###   ########.fr       */
+/*   Created: 2023/12/19 12:39:41 by hemottu           #+#    #+#             */
+/*   Updated: 2023/12/19 12:40:23 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WINDOW_H
-# define WINDOW_H
+#ifndef TEXTURES_H
+# define TEXTURES_H
 
-	typedef struct s_win
+	typedef struct s_tex
 	{
-		void	*mlx_ptr;
-		void	*win_ptr;
-	}				t_win;
+		void	*north;
+		void	*east;
+		void	*west;
+		void	*south;
+	}			t_tex;
 
 #endif
