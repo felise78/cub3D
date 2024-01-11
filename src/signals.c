@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:39:28 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/19 22:15:57 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/11 14:24:18 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 #include "../inc/window.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
-#include "../inc/cube3D.h"
-
-
-int	close_window(t_cub *cub3D);
+#include "cub3D.h"
 
 int	handle_keypress(int keysym, t_cub *cub3D)
 {

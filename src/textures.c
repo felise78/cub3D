@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   textures.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:50:15 by hemottu           #+#    #+#             */
-/*   Updated: 2023/12/19 22:14:49 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/02 16:38:05 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/textures.h"
-#include "../inc/window.h"
+#include "textures.h"
+#include "window.h"
+#include "cub3D.h"
 
 int	load_textures(t_cub *cub3D)
 {
