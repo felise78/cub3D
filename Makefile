@@ -6,13 +6,13 @@
 #    By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/25 16:54:30 by hemottu           #+#    #+#              #
-#    Updated: 2024/01/11 15:31:42 by hemottu          ###   ########.fr        #
+#    Updated: 2024/01/22 15:58:00 by hemottu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = chips3D
 CC = clang
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -O2
 
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
@@ -23,18 +23,28 @@ RESET		=	\033[0m
 GREEN		=	\033[32m
 
 SRC_FILES = 	main.c \
+				init.c \
 				parsing/parsing.c \
 				parsing/file_handling.c \
 				parsing/map_checks.c \
 				parsing/utils.c \
 				parsing/texture_checks.c \
+				parsing/utils_2.c \
 				window.c \
 				free.c \
 				signals.c \
-				ray_casting/set_first_position.c \
-				draw/canvas.c \
-				draw/draw_little_map.c \
-				map_test.c
+				moves.c \
+				check_wall_collisions.c \
+				draw/draw_img.c \
+				draw/set_pixel.c \
+				draw/draw_minimap.c \
+				draw/colors.c \
+				map_test.c \
+				ray_casting/ray_pos_dir.c \
+				ray_casting/dda_algo.c
+#				ray_casting/lode.c
+#				ray_casting/ray_casting.c
+#				ray_casting/set_first_position.c \#
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

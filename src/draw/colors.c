@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rotate.c                                           :+:      :+:    :+:   */
+/*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 19:58:48 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/11 14:22:11 by hemottu          ###   ########.fr       */
+/*   Created: 2024/01/15 16:18:29 by hemottu           #+#    #+#             */
+/*   Updated: 2024/01/19 17:01:54 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+int init_colors (t_cub *cub)
+{
+	cub->colors = malloc(sizeof(char *) * NB_COLORS);
+	if (!cub->colors)
+		return (0);
+	cub->colors[WHITE] = ft_strdup("FFFFFFFF");
+	cub->colors[BLACK] = ft_strdup("000000FF");
+	cub->colors[GREY] = ft_strdup("888888FF");
+	cub->colors[YELLOW] = ft_strdup("FFFF00FF");
+	cub->colors[DARKBLUE] = ft_strdup("001633FF");
+	return (1);
+}
 
-
-// En trigonométrie, le symbole Δ (delta) est souvent utilisé pour représenter 
-// un changement ou une variation. Plus précisément, Δθ (delta theta) est utilisé 
-// pour représenter un changement d'angle. Par exemple, si vous avez deux angles 
-// θ₁ et θ₂, alors Δθ serait égal à θ₂ - θ₁, indiquant la différence ou le 
-// changement d'angle entre les deux.
+// format 	RED		GREEN	BLUE	ALPHA

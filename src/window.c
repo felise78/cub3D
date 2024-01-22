@@ -6,49 +6,55 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:37:07 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/11 15:37:41 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/17 15:39:45 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	close_window(t_cub *cub3D)
+int	close_window(t_cub *cub)
 {
 	int i;
 
 	i = 0;
-	while (cub3D->map[i])
+	while (cub->map->map_grid[i])
 	{
-		free(cub3D->map[i]);
+		free(cub->map->map_grid[i]);
 		i++;
 	}
-	free(cub3D->map[i]);
-	free(cub3D->map);
-	mlx_destroy_image(cub3D->win->mlx_ptr, cub3D->canvas->ptr);
-	mlx_destroy_window(cub3D->win->mlx_ptr, cub3D->win->win_ptr);
-	mlx_destroy_display(cub3D->win->mlx_ptr);
-	free(cub3D->win->mlx_ptr);
-	free_all(cub3D, 2, 4);
-	free(cub3D->win);
-	free(cub3D->player);
-	free(cub3D->camera);
-	free(cub3D->canvas);
+	free(cub->map->map_grid[i]);
+	free(cub->map->map_grid);
+	mlx_destroy_image(cub->win->mlx_ptr, cub->screen->ptr);
+	mlx_destroy_window(cub->win->mlx_ptr, cub->win->win_ptr);
+	mlx_destroy_display(cub->win->mlx_ptr);
+	free(cub->win->mlx_ptr);
+	//free_all(cub, 2, 4);
+	free(cub->map);
+	free(cub->win);
+	free(cub->player);
+	//free(cub->camera);
+	free(cub->screen);
+	i = 0;
+	while (i < NB_COLORS)
+		free(cub->colors[i++]);
+	free(cub->colors);
+	free(cub->win->index);
 	// bien free tout ce qu'il y a a free ici 
 	exit(0);
 }
 
-void	create_window(t_cub *cub3D)
+void	create_window(t_cub *cub)
 {
-	cub3D->win->win_ptr = mlx_new_window(cub3D->win->mlx_ptr, cub3D->win->width, cub3D->win->height, "CHIPS3D");
-	if (cub3D->win->win_ptr == NULL)
+	cub->win->win_ptr = mlx_new_window(cub->win->mlx_ptr, cub->win->w, cub->win->h, "CHIPS3D");
+	if (cub->win->win_ptr == NULL)
 	{
-		mlx_destroy_display(cub3D->win->mlx_ptr);
+		mlx_destroy_display(cub->win->mlx_ptr);
 		return ;
 	}
-	draw_background(cub3D);
-	mlx_hook(cub3D->win->win_ptr, DestroyNotify, 0, close_window, cub3D);
-	mlx_hook(cub3D->win->win_ptr, KeyPress, KeyPressMask, handle_keypress, cub3D);
-	mlx_hook(cub3D->win->win_ptr, KeyRelease, KeyReleaseMask, handle_keyrelease, cub3D);
-	mlx_loop_hook(cub3D->win->mlx_ptr, loop, cub3D);
-	mlx_loop(cub3D->win->mlx_ptr); // cette loupe garde la fenetre ouverte
+	draw_img(cub);
+	mlx_hook(cub->win->win_ptr, DestroyNotify, 0, close_window, cub);
+	mlx_hook(cub->win->win_ptr, KeyPress, KeyPressMask, handle_keypress, cub);
+	mlx_hook(cub->win->win_ptr, KeyRelease, KeyReleaseMask, handle_keyrelease, cub);
+	mlx_loop_hook(cub->win->mlx_ptr, loop, cub); // put img to window is on loop;
+	mlx_loop(cub->win->mlx_ptr); // cette loop garde la fenetre ouverte
 }

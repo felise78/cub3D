@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:39:28 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/11 14:24:18 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/16 15:04:55 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,13 @@
 #include <X11/keysym.h>
 #include "cub3D.h"
 
-int	handle_keypress(int keysym, t_cub *cub3D)
+int	handle_keypress(int keysym, t_cub *cub)
 {
 	if (keysym == XK_Escape)
-		close_window(cub3D);
-	else if (keysym == XK_a)
-		; // deplace le personnage
-	else if (keysym == XK_d)
-		; // deplace le personnage
-	else if (keysym == XK_s)
-		; // deplace le personnage
-	else if (keysym == XK_w)
-		; // deplace le personnage
+		close_window(cub);
+	else if (keysym == XK_a || keysym == XK_d
+		|| keysym == XK_s || keysym == XK_w)
+		move_player(cub, keysym);
 	else if (keysym == XK_Left)
 		; // rotate la camera
 	else if (keysym == XK_Up)

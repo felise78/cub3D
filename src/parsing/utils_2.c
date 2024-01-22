@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   img.h                                              :+:      :+:    :+:   */
+/*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/09 19:41:41 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/12 15:09:27 by hemottu          ###   ########.fr       */
+/*   Created: 2024/01/12 15:53:31 by pichatte          #+#    #+#             */
+/*   Updated: 2024/01/12 15:54:15 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IMG_H
-# define IMG_H
+#include "cub3D.h"
+#include "libft.h"
 
-	typedef struct s_img
-	{
-		void	*ptr;
-		char	*addr;
-		int		bits_per_pixel;
-		int		size_line;
-		int		endian;
-		int		offset;
-		int		pixel; // ca sert a quelque chose ?
-		//unsigned int		*pixels[];
-		
-	}			t_img;
+int	tab_size(char **tab)
+{
+	int	i;
 
-#endif
+	if (!tab)
+		return (-1);
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   textures.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:39:41 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/09 18:04:33 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/17 11:48:57 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_cub	t_cub;
 	typedef struct s_tex
 	{
 		char	*directions[4];
-		void	*floor;
-		void	*ceiling;
+		int		floor[3]; // le mettre direct en unsigned char ?
+		int		ceiling[3]; // le mettre direct en unsigned char ?
 	}			t_tex;
 
 /*PARSING*/

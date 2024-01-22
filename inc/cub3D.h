@@ -6,18 +6,23 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:59:49 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/11 15:37:13 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/19 16:51:38 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
+	#include "libft.h"
+	#include "mlx.h"
+	#include "prototypes.h"
 	#include "window.h"
 	#include "textures.h"
 	#include "img.h"
-	#include "mlx.h"
+	#include "player.h"
+	#include "colors.h"
 	#include <fcntl.h>
+	#include <sys/types.h>
 	#include <sys/stat.h>
 	#include <stdio.h>
 	#include <stdlib.h>
@@ -26,62 +31,35 @@
 	#include <X11/keysym.h>
 	#include <X11/Xlib.h>
 	#include <math.h>
+	#include <stdbool.h>
 	
-	// #define screenWidth 640
-	// #define screenHeight 480
-	// #define mapWidth 24
-	// #define mapHeight 24
 	#define PI 3.1415926535
+	#define SIZE_TILE 16
 	
-	typedef struct s_win t_win;
 	typedef struct s_file t_file;
-	typedef struct s_pos t_pos;
-	typedef struct s_fov t_fov;
-	
+	typedef struct s_map t_map;
+
 	typedef struct s_cub
 	{
 		t_win	*win;
-		t_img	*canvas; 
+		t_img	*screen; 
 		t_tex	*textures;
 		t_file	*file; // plus besoin ?
-		char	**map;
-		int		map_size;
-		int 	**matrice;
+		t_map	*map;
 		t_pos	*player;
-		t_fov	*camera;
-		
+		//t_fov	*camera;
+		char 	**colors;
 	}	t_cub;
 
-	// garder float ou double ?
-	typedef struct s_fov
+	typedef struct s_map
 	{
-		// valeur trigonometrique
-		float dir;
-		float Lray;
-		float Rray;
+		char	**map_grid;
+		int		map_len;
+		int 	map_height; // change to map_height ?
+		int		map_width;
 		
-		// ou plutot faire avec des vecteurs ?
-		float dirX; 
-		float dirY;
-		float LrayX;
-		float LrayY;
-		float RrayX;
-		float RrayY;
-		
-		// je pourrais avoir seulement deux rayons ?
-		
-	} t_fov;
-	
-	typedef struct s_pos
-	{
-		// position precise du joueur
-		float x;
-		float y;
-		// sur quel carre de la map il se trouve
-		int mapX; 
-		int mapY;
-	}	t_pos;
-	
+	}	t_map;
+
 	typedef struct s_file
 	{
 		char	*cub_file;
@@ -89,47 +67,5 @@
 		char	*filename;
 		char	**file_grid;
 	}	t_file;
-
-/*INIT*/
-int init_map_test(t_cub *cub3D); // juste test
-void	set_first_position(t_cub *cub3D);
-int		load_textures(t_cub *cub3D);
-
-/*ERRORS GENERAL*/
-int		check_errors(t_cub *cub3D);
-int		ft_check_file_ext(char *s);
-int		check_file_pollution(t_cub *cub3D);
-
-/*PARSING UTILS*/
-int		close_fd_perror(int fd, char *error_msg, int return_code);
-int		count_chars_in_file(char *filename);
-int		copy_file(t_cub *cub3D);
-int		in_charset(int c, char *charset);
-int		check_line_valid(char *line);
-char	*first_line_of_map(t_cub *cub3D);
-char	*last_char_of_map(t_cub *cub3D);
-
-/*MAP CHECKS*/
-int		check_map_printable(char *filename);
-int		map_is_last(t_cub *cub3D);
-int		map_has_nl(t_cub *cub3D);
-int		map_enclosed(t_cub *cub3D);
-
-/*FREES AND EXIT*/
-void	free_all(t_cub *cub3D, int level, int directions);
-void	free_tab(char **tab);
-
-/*WINDOW*/
-void	create_window(t_cub *cub3D);
-int	close_window(t_cub *cub3D);
-
-/*DRAW*/
-int loop(t_cub *cub3D);
-void	draw_background(t_cub *cub3D);
-void draw_little_map(t_cub *cub3D);
-
-/*SIGNALS*/
-int	handle_keypress(int keysym, t_cub *cub3D);
-int handle_keyrelease(int keysym, t_cub *cub3D);
 
 #endif

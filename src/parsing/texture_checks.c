@@ -6,7 +6,7 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:03:52 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/10 16:06:44 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:53:55 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,52 @@ void	set_texture_pointers(t_cub *cub3D, char **dir_pointer, char *ID, int max_fr
 		free_all(cub3D, 1, max_free);
 		exit (EXIT_FAILURE);
 	}
-
-	ft_dprintf(1, "%s\n", *dir_pointer);
 }
 
-int	check_textures_valid(t_cub *cub3D)
+int	check_textures_valid(t_cub *cub, char *ID)
 {
-	(void) cub3D;
+	int		i;
+	char	*pos;
+	char	**values;
+	
+	i = 0;
+	while (cub->file->file_grid[i])
+	{
+		if (ft_strnstr(cub->file->file_grid[i], ID,
+			ft_strlen(cub->file->file_grid[i])) == cub->file->file_grid[i])
+		pos = ft_strnstr(cub->file->file_grid[i], ID,
+			ft_strlen(cub->file->file_grid[i])) + 2;
+		i++;
+	}
+	values = ft_split(pos, ',');
+	if (!values)
+		return (1);
+	if (check_RGB_valid(cub, ID, values))
+		return (free_all(cub, 1, 4), 1);
+	free_tab(values);
 	return (0);	
+}
+
+
+
+int	check_RGB_valid(t_cub *cub, char *ID, char **values)
+{
+	int		i;
+	int		n;
+
+	if (tab_size(values) != 3)
+		return (free_tab(values), ft_dprintf(2, "Error: 3 RGB codes required\n"), 2);
+	i = 0;
+	while (i < 3 && values[i])
+	{
+		n = ft_atoi(values[i]);
+		if ((!n && char_not_zero(values[i])) || n < 0 || n > 255)
+			return (free_tab(values), ft_dprintf(2, "Error: RGB codes invalid\n"), 2);
+		if (!ft_strncmp(ID, "C ", 10))
+			(cub->textures->ceiling)[i] = n;
+		if (!ft_strncmp(ID, "F ", 10))
+			(cub->textures->floor)[i] = n;
+		i++;
+	}
+	return (0);
 }

@@ -6,12 +6,31 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:30:13 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/10 18:40:43 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/12 13:49:51 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "libft.h"
+
+int	set_map_dimensions(t_cub *cub)
+{
+	int	i;
+	
+	if (!cub || !(cub->map) || !(cub->map->map_grid))
+		return (-1);
+	cub->map->map_len = 0;
+	i = 0;
+	while (cub->map->map_grid[i])
+	{
+		if (ft_strlen(cub->map->map_grid[i]) > (size_t)cub->map->map_len)
+			cub->map->map_len = ft_strlen(cub->map->map_grid[i]);
+		i++;
+	}
+	cub->map->map_width = i;
+	ft_dprintf(1, "Map len is %d\nMap width is %d\n", cub->map->map_len, cub->map->map_width);
+	return (0);
+}
 
 int check_map_printable(char *filename)
 {
@@ -56,7 +75,7 @@ int	map_is_last(t_cub *cub3D)
 	while (len - 1 && last_line)
 	{
 		if (!in_charset(cub3D->file->cub_file[len - 1], charset_last))
-			return (ft_dprintf(2, "Error: Map is not last\n"), 0);
+			return (ft_dprintf(2, "Error: Map is not last or invalid\n"), 0);
 		if (cub3D->file->cub_file[len - 1] == '\n')
 			last_line = 0;
 		len--;

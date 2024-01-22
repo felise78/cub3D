@@ -6,7 +6,7 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:29:49 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/10 18:40:10 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:12:31 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,27 @@ char	*last_char_of_map(t_cub *cub3D)
 		len--;
 	return (cub3D->file->cub_file + len - 1); 
 }
+
+int	char_not_zero(char *n)
+{
+	int	i;
+
+	if (!n)
+		return (1);
+	i = 0;
+	while (!(ft_isdigit(n[i])))
+		i++;
+	if (!n[i])
+		return (1);
+	while (n[i])
+	{
+		if (n[i] != '0')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+// int	find_map_len()
+// {
+// 	return (0);
+// }
