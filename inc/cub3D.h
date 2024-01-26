@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:59:49 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/19 16:51:38 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/25 16:39:42 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 	#include "img.h"
 	#include "player.h"
 	#include "colors.h"
+	#include "camera.h"
+	#include "rays.h"
 	#include <fcntl.h>
 	#include <sys/types.h>
 	#include <sys/stat.h>
@@ -33,29 +35,26 @@
 	#include <math.h>
 	#include <stdbool.h>
 	
-	#define PI 3.1415926535
-	#define SIZE_TILE 16
-	
 	typedef struct s_file t_file;
 	typedef struct s_map t_map;
-
+	
 	typedef struct s_cub
 	{
 		t_win	*win;
 		t_img	*screen; 
 		t_tex	*textures;
-		t_file	*file; // plus besoin ?
+		t_file	*file;
 		t_map	*map;
 		t_pos	*player;
-		//t_fov	*camera;
-		char 	**colors;
+		t_cam	*camera;
+		t_ray	*rays;	
+		int 	**colors;
 	}	t_cub;
 
 	typedef struct s_map
 	{
 		char	**map_grid;
-		int		map_len;
-		int 	map_height; // change to map_height ?
+		int 	map_height;
 		int		map_width;
 		
 	}	t_map;

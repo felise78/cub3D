@@ -6,64 +6,46 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 14:07:58 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/17 15:13:45 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/25 20:01:24 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-#define GAP 0.1 // speed ?
-#define GAP2 0.2
-
-
-
-static int	modify_player_data(t_cub *cub, float x, float y)
+int	wall_colision(t_cub *cub, int keysym)
 {
-	if (check_if_wall(cub, x, y) == 0)
-		return(0);
-	cub->player->pos.x += x;
-	cub->player->pos.y += y;
-	cub->player->mapX = (int)cub->player->pos.x;
-	cub->player->mapY = (int)cub->player->pos.y;
-	return (1);
+	if (keysym == XK_w)
+	{
+		cub->player->n_pos.x = cub->player->pos.x + cub->player->speed * cub->camera->dir.x;
+		cub->player->n_pos.y = cub->player->pos.y + cub->player->speed * cub->camera->dir.y;
+	}
+	else if (keysym == XK_s)
+	{
+		cub->player->n_pos.x = cub->player->pos.x + -cub->player->speed * cub->camera->dir.x;
+		cub->player->n_pos.y = cub->player->pos.y + -cub->player->speed * cub->camera->dir.y;
+	}
+	else if (keysym == XK_d)
+	{
+		cub->player->n_pos.x = cub->player->pos.x + cub->player->speed * cub->camera->plane.x;
+		cub->player->n_pos.y = cub->player->pos.y + cub->player->speed * cub->camera->plane.y;
+	}
+	else if (keysym == XK_a)
+	{
+		cub->player->n_pos.x = cub->player->pos.x + -cub->player->speed * cub->camera->plane.x;
+		cub->player->n_pos.y = cub->player->pos.y + -cub->player->speed * cub->camera->plane.y;
+	}
+	if (cub->map->map_grid[(int)(cub->player->n_pos.y)][(int)(cub->player->n_pos.x)] == '1')
+		return (1);
+	return (0);
 }
-
-// void	move_player(t_cub *cub, int keysym)
-// {
-// 	draw_player(cub, BLACK);
-// 	if (keysym == XK_a)
-// 	{
-// 		if (modify_player_data(cub, -GAP, 0) == 0)
-// 			return;
-// 	}
-// 	else if (keysym == XK_d)
-// 	{
-// 		if (modify_player_data(cub, GAP, 0) == 0)
-// 			return;
-// 	}
-// 	else if (keysym == XK_s)
-// 	{
-// 		if (modify_player_data(cub, 0, GAP) == 0)
-// 			return;
-// 	}
-// 	else if  (keysym == XK_w)
-// 	{
-// 		if (modify_player_data(cub, 0, -GAP) == 0)
-// 			return;
-// 	}
-// 	draw_player(cub, YELLOW);
-// }
 
 void	move_player(t_cub *cub, int keysym)
 {
-	draw_player(cub, BLACK);
-	if (keysym == XK_a)
-		modify_player_data(cub, -GAP, 0);
-	else if (keysym == XK_d)
-		modify_player_data(cub, GAP, 0);
-	else if (keysym == XK_s)
-		modify_player_data(cub, 0, GAP);
-	else if  (keysym == XK_w)
-		modify_player_data(cub, 0, -GAP);
-	draw_player(cub, YELLOW);
+	if (wall_colision(cub, keysym))
+		return;
+	cub->player->pos.x = cub->player->n_pos.x;
+	cub->player->pos.y = cub->player->n_pos.y;
+	cub->player->mapX = (int)cub->player->pos.x;
+	cub->player->mapY = (int)cub->player->pos.y;
+	draw_img(cub);
 }

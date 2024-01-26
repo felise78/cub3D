@@ -6,7 +6,7 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:30:13 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/12 13:49:51 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:00:39 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ int	set_map_dimensions(t_cub *cub)
 	
 	if (!cub || !(cub->map) || !(cub->map->map_grid))
 		return (-1);
-	cub->map->map_len = 0;
+	cub->map->map_width = 0;
 	i = 0;
 	while (cub->map->map_grid[i])
 	{
-		if (ft_strlen(cub->map->map_grid[i]) > (size_t)cub->map->map_len)
-			cub->map->map_len = ft_strlen(cub->map->map_grid[i]);
+		if (ft_strlen(cub->map->map_grid[i]) > (size_t)cub->map->map_width)
+			cub->map->map_width = ft_strlen(cub->map->map_grid[i]);
 		i++;
 	}
-	cub->map->map_width = i;
-	ft_dprintf(1, "Map len is %d\nMap width is %d\n", cub->map->map_len, cub->map->map_width);
+	cub->map->map_height = i;
+	ft_dprintf(1, "Map width: %d, map height: %d\n", cub->map->map_width, cub->map->map_height);
 	return (0);
 }
 
@@ -83,26 +83,69 @@ int	map_is_last(t_cub *cub3D)
 	return (1);
 }
 
+int	nl(t_cub *cub);
+
 int	map_has_nl(t_cub *cub3D)
 {
-	char	*first_line_map;
-	int		i;
+	int			first_line;
+	const char	*charset = "10 ";
 	
-	first_line_map = first_line_of_map(cub3D);
-	if (!first_line_map)
-		return (ft_dprintf(2, "Error: Closed map not found\n"), 1);
-	i = 0;
-	while (first_line_map[i] && first_line_map + i != last_char_of_map(cub3D))
+	if (nl(cub3D))
+		return (1);
+	first_line = first_line_of_map(cub3D);
+	if (!first_line)
+		return (ft_dprintf(2, "Error: Closed map not found\n"), 2);
+	while (cub3D->file->file_grid[first_line])
 	{
-		if (first_line_map[i] == '\n' && first_line_map[i + 1] == '\n')
-			return (ft_dprintf(2, "Error: Map has newline\n"), 1);
-		i++;
+		if (!in_charset(cub3D->file->file_grid[first_line][0], charset))
+			return (ft_dprintf(2, "Error: Invalid map\n"), 3);
+		first_line++;
 	}
 	return (0);
 }
 
-int	map_enclosed(t_cub *cub3D)
+int	wrong_neighbour(char **grid, int y, int x, char *charset)
 {
-	(void) cub3D;
+	if (in_charset (grid[y][x + 1], charset)
+		&& (x > 0 && in_charset (grid[y][x - 1], charset))
+		&& (grid[y + 1] && in_charset (grid[y + 1][x], charset))
+		&& (y > 0 && in_charset (grid[y - 1][x], charset)))
+		return (0);
 	return (1);
+}
+
+int	nl(t_cub *cub)
+{
+	char		*file;
+	int 		i;
+	int			j;
+	int			len;
+	const char	*charset = "1 ";
+	
+	file = cub->file->cub_file;
+	i = 0;
+	while (file[i])
+	{
+		if (file[i] == '\n')
+		{
+			j = i + 1;
+			while (in_charset(file[j], charset))
+				j++;
+			if (file[j] == '\n' && j != i + 1)
+				break;	
+		}
+		i++;
+	}
+	if (!file[i])
+		return (ft_dprintf(2, "Closed map not found\n"), 1);
+	len = cub->file->file_len - 1;
+	while (len && file[len] == '\n')
+		len--;
+	while (len && len != i + 1)
+	{
+		if (file[len] == '\n' && len - 1 && file[len - 1] == '\n')
+			return (ft_dprintf(2, "Newline in map\n"), 2);
+		len--;
+	}
+	return (0);
 }

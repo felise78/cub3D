@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:39:41 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/17 11:48:57 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/25 20:39:24 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define TEXTURES_H
 
 typedef struct s_cub	t_cub;
+typedef struct s_img	t_img;
 
 	typedef enum s_direction
 	{
@@ -26,12 +27,10 @@ typedef struct s_cub	t_cub;
 	typedef struct s_tex
 	{
 		char	*directions[4];
-		int		floor[3]; // le mettre direct en unsigned char ?
-		int		ceiling[3]; // le mettre direct en unsigned char ?
+		t_img	*img[4];
+		int		h[4];
+		int		floor[3]; 
+		int		ceiling[3]; 
 	}			t_tex;
-
-/*PARSING*/
-int		check_texture_number(char *identifier, t_cub *cub3D, int option);
-void	set_texture_pointers(t_cub *cub3D, char **dir_pointer, char *ID, int i);
-
+	
 #endif

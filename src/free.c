@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:29:34 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/12 18:15:31 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/24 15:37:38 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,13 @@ void	free_all(t_cub *cub3D, int level, int directions)
 {
 	int	i;
 
-	if (level > 1)
+	if (level > 2)
 		free (cub3D->win);
+	if (level > 1)
+	{
+		free(cub3D->camera);
+		free(cub3D->player);	
+	}
 	if (level > 0)
 	{
 		i = 0;

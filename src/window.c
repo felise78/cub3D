@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:37:07 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/17 15:39:45 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/25 15:29:04 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,21 @@ int	close_window(t_cub *cub)
 	mlx_destroy_window(cub->win->mlx_ptr, cub->win->win_ptr);
 	mlx_destroy_display(cub->win->mlx_ptr);
 	free(cub->win->mlx_ptr);
-	//free_all(cub, 2, 4);
 	free(cub->map);
+	i = 0;
+	while(i < cub->win->h)
+		free(cub->win->index[i++]);
+	free(cub->win->index);
 	free(cub->win);
 	free(cub->player);
-	//free(cub->camera);
+	free(cub->camera);
 	free(cub->screen);
 	i = 0;
 	while (i < NB_COLORS)
 		free(cub->colors[i++]);
 	free(cub->colors);
-	free(cub->win->index);
-	// bien free tout ce qu'il y a a free ici 
+	free(cub->rays);
+	//free_all(cub, 2, 4);
 	exit(0);
 }
 
@@ -54,7 +57,7 @@ void	create_window(t_cub *cub)
 	draw_img(cub);
 	mlx_hook(cub->win->win_ptr, DestroyNotify, 0, close_window, cub);
 	mlx_hook(cub->win->win_ptr, KeyPress, KeyPressMask, handle_keypress, cub);
-	mlx_hook(cub->win->win_ptr, KeyRelease, KeyReleaseMask, handle_keyrelease, cub);
+	//mlx_hook(cub->win->win_ptr, KeyRelease, KeyReleaseMask, handle_keyrelease, cub);
 	mlx_loop_hook(cub->win->mlx_ptr, loop, cub); // put img to window is on loop;
 	mlx_loop(cub->win->mlx_ptr); // cette loop garde la fenetre ouverte
 }

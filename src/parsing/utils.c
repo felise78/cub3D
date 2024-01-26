@@ -6,14 +6,14 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:29:49 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/12 15:12:31 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:14:23 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "libft.h"
 
-int in_charset(int c, char *charset)
+int in_charset(int c, const char *charset)
 {
     int i;
 
@@ -31,7 +31,7 @@ int	check_line_valid(char *line)
 {
 	int			i;
 	int			j;
-	const char	textures_array[7][4] = {"NO ", "SO ", "WE ", "EA", "F ", "C "};
+	const char	textures_array[7][4] = {"NO ", "SO ", "WE ", "EA ", "F ", "C "};
 	const char	charset[8] = "10NSEW ";
 	
 	if (!line)
@@ -53,7 +53,7 @@ int	check_line_valid(char *line)
 	return (1);
 }
 
-char	*first_line_of_map(t_cub *cub3D)
+int	first_line_of_map(t_cub *cub3D)
 {
 	int		i;
 	int		j;
@@ -61,22 +61,19 @@ char	*first_line_of_map(t_cub *cub3D)
 
 	charset_first = "1 ";
 	i = 0;
-	while (cub3D->file->cub_file[i])
+	while (cub3D->file->file_grid[i])
 	{
-		if (cub3D->file->cub_file[i] == '\n'
-			&& cub3D->file->cub_file[i + 1]
-			&& in_charset(cub3D->file->cub_file[i + 1], charset_first))
+		if (in_charset(cub3D->file->file_grid[i][0], charset_first))
 		{
-			j = i + 1;
-			while (cub3D->file->cub_file[j] && in_charset(cub3D->file->cub_file[j],
-				charset_first))
+			j = 0;
+			while (in_charset(cub3D->file->file_grid[i][j], charset_first))
 				j++;
-			if (j != i + 1 && cub3D->file->cub_file[j] == '\n')
-				return ((cub3D->file->cub_file) + i + 1);
-		} 
+			if (!(cub3D->file->file_grid[i][j]))
+				return (i);
+		}
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*last_char_of_map(t_cub *cub3D)
@@ -96,7 +93,7 @@ int	char_not_zero(char *n)
 	if (!n)
 		return (1);
 	i = 0;
-	while (!(ft_isdigit(n[i])))
+	while (n && n[i] && !(ft_isdigit(n[i])))
 		i++;
 	if (!n[i])
 		return (1);
@@ -108,7 +105,3 @@ int	char_not_zero(char *n)
 	}
 	return (0);
 }
-// int	find_map_len()
-// {
-// 	return (0);
-// }

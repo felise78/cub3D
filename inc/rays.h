@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.h                                           :+:      :+:    :+:   */
+/*   rays.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/15 16:27:40 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/25 20:57:21 by hemottu          ###   ########.fr       */
+/*   Created: 2024/01/24 16:24:50 by hemottu           #+#    #+#             */
+/*   Updated: 2024/01/24 17:09:08 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#ifndef RAYS_H
+# define RAYS_H
 
-	#define NB_COLORS 8
-	
-	enum colors {
-		WHITE,
-		BLACK,
-		LIGHTGREY,
-		GREY,
-		YELLOW,
-		RED,
-		GREEN,
-		BLUE,
-	};
-
-	typedef struct s_pix
-	{
-		unsigned char R;
-		unsigned char G;
-		unsigned char B;
-		unsigned char A;
-	} t_pix;
+	typedef struct s_ray{
+		float cameraX;
+		float rayDirX;
+		float rayDirY;
+		float sideDistX;
+		float sideDistY;
+		float deltaDistX;
+		float deltaDistY;
+		float perpWallDist;
+		int	stepX;
+		int stepY;
+		int mapX;
+		int mapY;
+    	int side;
+	} t_ray;
 
 #endif

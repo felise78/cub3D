@@ -6,7 +6,7 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:31:46 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/12 16:08:33 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/24 18:41:40 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,13 @@
 
 int	map_to_grid(t_cub *cub3D)
 {
-	int 	i;
-	int		j;
-	char	*charset;
+	int		first_line_map;
 
-	charset = "1 ";
-	i = 0;
-	while (cub3D->file->file_grid[i])
-	{
-		j = 0;
-		while (cub3D->file->file_grid[i][j])
-		{
-			if (!in_charset(cub3D->file->file_grid[i][j], charset))
-				break;
-			j++;
-		}
-		if (!cub3D->file->file_grid[i][j])
-		{
-			cub3D->map->map_grid = &(cub3D->file->file_grid[i]);
-			return (0);
-		}
-		i++;
-	}
-	return (1);
+	first_line_map = first_line_of_map(cub3D);
+	if (!first_line_map)
+		return (1);
+	cub3D->map->map_grid = &(cub3D->file->file_grid[first_line_map]);
+	return (0);
 }
 
 int	check_map(t_cub *cub3D)
@@ -49,17 +33,12 @@ int	check_map(t_cub *cub3D)
 		return (free_all(cub3D, 1, 4), 2);
 	if (map_to_grid(cub3D))
 		return (3);
-	/*CHECK GRID*/
-	int i = 0;
-	while (cub3D->map->map_grid[i])
-	{
-		ft_dprintf(1, "%s\n", cub3D->map->map_grid[i]);
-		i++;
-	}
 	if (set_map_dimensions(cub3D))
 		return (free_all(cub3D, 1, 4), 4);
-	if (!map_enclosed(cub3D))
-		return (free_all(cub3D, 1, 4), 4);
+	if (set_first_position(cub3D))
+		return (5);
+	if (floodfill(cub3D))
+		return (free_all(cub3D, 1, 4), 6);
 	return (0);
 }
 
@@ -85,16 +64,7 @@ int	check_textures(t_cub *cub3D)
 		return (1);
 	if (check_textures_valid(cub3D, "F "))
 		return (1);
-	/*Checking if all 6 textures exist*/
-	for (i = 0; i < 3; i++)
-	{
-		ft_dprintf(1, "Ceiling value %d is: %d\n", i, cub3D->textures->ceiling[i]);
-		ft_dprintf(1, "Floor value %d is: %d\n", i, cub3D->textures->floor[i]);
-	}
-	for (i = 0; i < 4; i++)
-		ft_dprintf(1, "%s\n", cub3D->textures->directions[i]);
 	return (0);
-	/**/
 }
 
 int	check_errors(t_cub *cub3D)
@@ -113,3 +83,12 @@ int	check_errors(t_cub *cub3D)
 		return (6);
 	return (0);
 }
+
+// /*PRINTING VALUES*/
+// 	for (int i = 0; i < 4; i++)
+// 		ft_dprintf(1, "%s\n", cub3D->textures->directions[i]);
+// 	for (int i = 0; i < 3; i++)
+// 		ft_dprintf(1, "Floor RGB %d. %i\n", i, cub3D->textures->floor[i]);
+// 	for (int i = 0; i < 3; i++)
+// 		ft_dprintf(1, "Ceiling RGB %d. %i\n", i, cub3D->textures->ceiling[i]);
+// /*****************/

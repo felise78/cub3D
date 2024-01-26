@@ -6,7 +6,7 @@
 #    By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/25 16:54:30 by hemottu           #+#    #+#              #
-#    Updated: 2024/01/22 15:58:00 by hemottu          ###   ########.fr        #
+#    Updated: 2024/01/25 21:28:53 by hemottu          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,34 +17,32 @@ CFLAGS = -Wall -Wextra -Werror -g -O2
 SRC_DIR		=	src/
 OBJ_DIR		=	obj/
 INC_DIR		=	inc/
-#LIBFT_DIR	=	libft/
 
 RESET		=	\033[0m
 GREEN		=	\033[32m
 
-SRC_FILES = 	main.c \
+SRC_FILES =		main.c \
 				init.c \
-				parsing/parsing.c \
-				parsing/file_handling.c \
-				parsing/map_checks.c \
-				parsing/utils.c \
-				parsing/texture_checks.c \
-				parsing/utils_2.c \
 				window.c \
 				free.c \
 				signals.c \
+				ray_casting/rotate.c \
 				moves.c \
-				check_wall_collisions.c \
 				draw/draw_img.c \
 				draw/set_pixel.c \
 				draw/draw_minimap.c \
 				draw/colors.c \
+				draw/draw_walls.c \
 				map_test.c \
-				ray_casting/ray_pos_dir.c \
-				ray_casting/dda_algo.c
-#				ray_casting/lode.c
-#				ray_casting/ray_casting.c
-#				ray_casting/set_first_position.c \#
+				ray_casting/raycast.c \
+				parsing/set_first_position.c \
+				parsing/parsing.c \
+				parsing/file_handling.c \
+				parsing/map_checks.c \
+				parsing/map_checks_2.c \
+				parsing/utils.c \
+				parsing/texture_checks.c \
+				parsing/utils_2.c
 
 OBJ_FILES = $(SRC_FILES:.c=.o)
 

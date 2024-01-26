@@ -6,13 +6,13 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 14:43:06 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/17 15:39:33 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/25 21:44:50 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int init_index(t_cub *cub)
+static int init_index(t_cub *cub)
 {
 	int x;
 	int y;
@@ -47,6 +47,39 @@ int init_index(t_cub *cub)
 	return (1);
 }
 
+// int load_textures(t_cub *cub)
+// {
+// 	int	w;
+// 	int h;
+
+// 	cub->textures->img[NORTH]->ptr = mlx_xpm_file_to_image(cub->win->mlx_ptr,
+// 			"images/floor.xpm", &size, &size);
+// 	cub->textures->img[EAST]->ptr = mlx_xpm_file_to_image(cub->win->mlx_ptr,
+// 			"images/wall.xpm", &size, &size);
+// 	cub->textures->img[SOUTH]->ptr = mlx_xpm_file_to_image(cub->win->mlx_ptr,
+// 			"images/key.xpm", &size, &size);
+// 	cub->textures->img[WEST]->ptr = mlx_xpm_file_to_image(cub->win->mlx_ptr,
+// 			"images/bat.xpm", &size, &size);
+// 	if ()
+// 		return (0);
+// 	else
+// 		return (1);
+// }
+// 	return (0);
+// 	return (1);
+// }
+
+int	init_pointers(t_cub *cub, t_file *file, t_tex *textures, char *filename)
+{
+	cub->file = file;
+	cub->file->filename = filename;
+	cub->textures = textures;
+	cub->file->cub_file = NULL;
+	cub->file->file_grid = NULL;
+	cub->file->file_len = 0;
+	return (0);
+}
+
 int	init_cub3D(t_cub *cub)
 {
 	cub->win = malloc(sizeof(t_win));
@@ -55,14 +88,8 @@ int	init_cub3D(t_cub *cub)
 	cub->win->mlx_ptr = mlx_init();
 	if (cub->win->mlx_ptr == NULL)
 		return (0);
-	// if (load_textures(win, textures) == 0)
+	// if (load_textures(cub) == 0)
 	// 	return ;
-	cub->player = malloc(sizeof(t_pos) * 1);
-	if (!cub->player)
-		return (0);
-	// cub->camera = malloc (sizeof(t_fov) * 1);
-	// if (!cub->camera)
-	// 	return (0);
 	cub->screen = malloc (sizeof(t_img) * 1);
 	if (!cub->screen)
 		return (0);
@@ -80,6 +107,9 @@ int	init_cub3D(t_cub *cub)
 	if (init_colors(cub) == 0)
 		return (0);
 	if (init_index(cub) == 0)
+		return (0);
+	cub->rays = malloc(sizeof(t_ray) * cub->win->w);
+	if (!cub->rays)
 		return (0);
 	return (1);
 }

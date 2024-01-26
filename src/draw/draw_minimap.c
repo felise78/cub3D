@@ -6,11 +6,13 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:05:39 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/17 15:35:01 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/25 20:09:43 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+#define SIZE_TILE 16
 
 void draw_tile(t_cub *cub, int map_x, int map_y, int color)
 {	
@@ -21,10 +23,10 @@ void draw_tile(t_cub *cub, int map_x, int map_y, int color)
 		x_tile = 0;
 		while(x_tile < SIZE_TILE)
 		{
-			if (color == BLACK) // x_tile == 0 || y_tile == 0 || x_tile == SIZE_TILE - 1 || y_tile == SIZE_TILE - 1 || 
-				set_pixel(cub, cub->win->index[SIZE_TILE * map_y + SIZE_TILE + y_tile][SIZE_TILE * map_x + SIZE_TILE + x_tile], cub->colors[BLACK]);
+			if (x_tile == 0 || y_tile == 0 || x_tile == SIZE_TILE - 1 || y_tile == SIZE_TILE - 1 || color == BLACK)
+				set_pixelRGB(cub,cub->win->index[SIZE_TILE * map_y + SIZE_TILE + y_tile][SIZE_TILE * map_x + SIZE_TILE + x_tile], cub->colors[BLACK]);
 			else
-				set_pixel(cub, cub->win->index[SIZE_TILE * map_y + SIZE_TILE + y_tile][SIZE_TILE * map_x + SIZE_TILE + x_tile], cub->colors[WHITE]);
+				set_pixelRGB(cub, cub->win->index[SIZE_TILE * map_y + SIZE_TILE + y_tile][SIZE_TILE * map_x + SIZE_TILE + x_tile], cub->colors[WHITE]);
 			x_tile++;
 		}
         y_tile++;
@@ -40,20 +42,20 @@ void draw_player(t_cub *cub, int color)
 	int width;
 	
 	width = 4;
-	y_start = (int)(cub->player->pos.y * SIZE_TILE) - width; // cub->player->w;
-	x_start = (int)(cub->player->pos.x * SIZE_TILE) - width; //cub->player->w;
-	x_end = (int)(cub->player->pos.x * SIZE_TILE) + width; //cub->player->w;
-	y_end = (int)(cub->player->pos.y * SIZE_TILE) + width; //cub->player->w;
+	y_start = (int)(cub->player->pos.y * SIZE_TILE) - width; 
+	x_start = (int)(cub->player->pos.x * SIZE_TILE) - width; 
+	x_end = (int)(cub->player->pos.x * SIZE_TILE) + width;
+	y_end = (int)(cub->player->pos.y * SIZE_TILE) + width;
 	cub->player->sommet[TL] = cub->win->index[y_start + SIZE_TILE][x_start + SIZE_TILE];
 	cub->player->sommet[TR] = cub->win->index[y_start + SIZE_TILE][x_end + SIZE_TILE - 1];
 	cub->player->sommet[BL] = cub->win->index[y_end + SIZE_TILE - 1][x_start + SIZE_TILE];
 	cub->player->sommet[BR] = cub->win->index[y_end + SIZE_TILE - 1][x_end + SIZE_TILE - 1];
 	while (y_start < y_end)
 	{
-		x_start = (int)(cub->player->pos.x * SIZE_TILE) - width; //cub->player->w;
+		x_start = (int)(cub->player->pos.x * SIZE_TILE) - width;
 		while (x_start < x_end)
 		{
-			set_pixel(cub, cub->win->index[y_start + SIZE_TILE][x_start + SIZE_TILE], cub->colors[color]);
+			set_pixelRGB(cub, cub->win->index[y_start + SIZE_TILE][x_start + SIZE_TILE], cub->colors[color]);
 			x_start++;
 		}
 		y_start++;

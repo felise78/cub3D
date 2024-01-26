@@ -6,7 +6,7 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:30:23 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/10 16:05:49 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:16:06 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_check_file_ext(char *s)
 	len = ft_strlen(s);
 	if (ft_strncmp(s + len - 4, ".cub", 4) != 0)
 	{
-		ft_dprintf(2, "Error\nYou must have a .cub file\n");
+		ft_dprintf(2, "Error: You must have a .cub file\n");
 		return (1);
 	}
 	else

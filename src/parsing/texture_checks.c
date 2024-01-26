@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   texture_checks.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:03:52 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/12 15:53:55 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:09:22 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// check double textures
-// check path to texture
-// check xpm?
+/*
+	* RGB code just word
+*/
 #include "textures.h"
 #include "cub3D.h"
 #include "libft.h"
@@ -82,8 +82,6 @@ int	check_textures_valid(t_cub *cub, char *ID)
 	free_tab(values);
 	return (0);	
 }
-
-
 
 int	check_RGB_valid(t_cub *cub, char *ID, char **values)
 {

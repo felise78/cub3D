@@ -6,7 +6,7 @@
 /*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 17:39:28 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/16 15:04:55 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:05:43 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,16 @@ int	handle_keypress(int keysym, t_cub *cub)
 	else if (keysym == XK_a || keysym == XK_d
 		|| keysym == XK_s || keysym == XK_w)
 		move_player(cub, keysym);
-	else if (keysym == XK_Left)
-		; // rotate la camera
-	else if (keysym == XK_Up)
-		; // rotate la camera
-	else if (keysym == XK_Right)
-		; // rotate la camera
-	else if (keysym == XK_Down)
-		; // rotate la camera
+	else if (keysym == XK_Left || keysym == XK_Right)
+		rotate(cub, keysym);
 	return (1);
 }
 
-int handle_keyrelease(int keysym, t_cub *cub3D)
-{
-	(void)cub3D; //
-	if (keysym == XK_Left)
-		; // arreter de rotate la camera ?
-	else if (keysym == XK_Up)
-		; // arreter de rotate la camera ?
-	else if (keysym == XK_Right)
-		; // arreter de rotate la camera ?
-	else if (keysym == XK_Down)
-		; // arreter de rotate la camera ?
-	return (1);
-}
+// int handle_keyrelease(int keysym, t_cub *cub3D)
+// {
+// 	(void)cub3D; //
+// 	if (keysym == XK_Left)
+// 		; // arreter de rotate la camera ?
+// 	else if (keysym == XK_Right)
+// 		; // arreter de rotate la camera ?
+// }
