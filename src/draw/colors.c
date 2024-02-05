@@ -3,35 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 16:18:29 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/25 21:09:31 by hemottu          ###   ########.fr       */
+/*   Updated: 2024/01/31 12:09:05 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int init_colors (t_cub *cub)
+static void	init_color_tab(t_cub *cub)
 {
-	cub->colors = malloc(sizeof(int *) * NB_COLORS);
-	if (!cub->colors)
-		return (0);
-	int i = 0;
-	while (i < NB_COLORS)
-		cub->colors[i++] = malloc(sizeof(int) * 3);
 	cub->colors[WHITE][0] = 255;
 	cub->colors[WHITE][1] = 255;
 	cub->colors[WHITE][2] = 255;
 	cub->colors[BLACK][0] = 0;
 	cub->colors[BLACK][1] = 0;
 	cub->colors[BLACK][2] = 0;
-	cub->colors[LIGHTGREY][0] = 230;
-	cub->colors[LIGHTGREY][1] = 230;
-	cub->colors[LIGHTGREY][2] = 230;
-	cub->colors[GREY][0] = 63;
-	cub->colors[GREY][1] = 63;
-	cub->colors[GREY][2] = 63;
+	cub->colors[GREY][0] = 127;
+	cub->colors[GREY][1] = 127;
+	cub->colors[GREY][2] = 127;
 	cub->colors[YELLOW][0] = 255;
 	cub->colors[YELLOW][1] = 255;
 	cub->colors[YELLOW][2] = 0;
@@ -44,18 +35,41 @@ int init_colors (t_cub *cub)
 	cub->colors[BLUE][0] = 0;
 	cub->colors[BLUE][1] = 0;
 	cub->colors[BLUE][2] = 255;
+}
+
+int	init_colors(t_cub *cub)
+{
+	int	i;
+
+	i = 0;
+	cub->colors = malloc(sizeof(int *) * NB_COLORS);
+	if (!cub->colors)
+		return (0);
+	while (i < NB_COLORS)
+	{
+		cub->colors[i] = malloc(sizeof(int) * 3);
+		if (!cub->colors[i])
+			return (0);
+		i++;
+	}
+	init_color_tab(cub);
 	return (1);
 }
 
-// void	ft_get_pixel(t_img *img, int x, int y)
-// {
-// 	img->offset = (x * (img->bits_per_pixel / 8)) + (y * img->size_line);
-// 	img->pixel = *(unsigned int *)(img->addr + img->offset);
-// }
+int	init_gradient_value(t_cub *cub)
+{
+	int	i;
+	int	end;
 
-// void	ft_put_pixel(t_img *canvas, int x, int y, t_img *img)
-// {
-// 	canvas->offset = (x * (canvas->bits_per_pixel / 8))
-// 		+ (y * canvas->size_line);
-// 	*(unsigned int *)(canvas->addr + canvas->offset) = img->pixel;
-// }
+	i = 0;
+	end = cub->win->half_pixels;
+	cub->win->gradient = malloc(sizeof(double) * end);
+	if (!cub->win->gradient)
+		return (0);
+	while (i < end)
+	{
+		cub->win->gradient[i] = ((double)i / (double)(end)) * 0.5;
+		i++;
+	}
+	return (1);
+}

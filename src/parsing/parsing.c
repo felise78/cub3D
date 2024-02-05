@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 15:31:46 by hemottu           #+#    #+#             */
-/*   Updated: 2024/01/24 18:41:40 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:23:21 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,64 @@
 #include "cub3D.h"
 #include "textures.h"
 
+static void	free_map_grid_errors(t_cub *cub, int level, int i)
+{
+	int	j;
+
+	if (level)
+	{
+		j = 0;
+		while (j < i)
+		{
+			free (cub->map->map_grid[j]);
+			j++;
+		}
+		free (cub->map->map_grid);
+	}
+	free_all(cub, 1, 4);
+	printf("Error\nMalloc fail");
+	exit(EXIT_FAILURE);
+}
+
 int	map_to_grid(t_cub *cub3D)
 {
-	int		first_line_map;
+	int	i;
+	int	first_line;
 
-	first_line_map = first_line_of_map(cub3D);
-	if (!first_line_map)
-		return (1);
-	cub3D->map->map_grid = &(cub3D->file->file_grid[first_line_map]);
+	cub3D->map->map_grid = ft_calloc(sizeof(char *),
+			cub3D->map->map_height + 1);
+	if (!cub3D->map->map_grid)
+		free_map_grid_errors(cub3D, 0, 0);
+	i = 0;
+	first_line = first_line_of_map(cub3D);
+	while (i < cub3D->map->map_height)
+	{
+		cub3D->map->map_grid[i]
+			= ft_strdup(cub3D->file->file_grid[first_line + i]);
+		if (!cub3D->map->map_grid[i])
+			free_map_grid_errors(cub3D, 1, i);
+		i++;
+	}
 	return (0);
 }
 
 int	check_map(t_cub *cub3D)
 {
+	bool	player_exists;
+
 	if (!map_is_last(cub3D))
 		return (free_all(cub3D, 1, 4), 1);
 	if (map_has_nl(cub3D))
 		return (free_all(cub3D, 1, 4), 2);
+	if (set_map_dimensions(cub3D))
+		return (printf("Error\nInvalid map\n"), free_all(cub3D, 1, 4), 3);
 	if (map_to_grid(cub3D))
 		return (3);
-	if (set_map_dimensions(cub3D))
-		return (free_all(cub3D, 1, 4), 4);
-	if (set_first_position(cub3D))
+	player_exists = false;
+	if (set_first_position(cub3D, player_exists, 0, 0))
 		return (5);
 	if (floodfill(cub3D))
-		return (free_all(cub3D, 1, 4), 6);
+		return (free_all(cub3D, 2, 4), 6);
 	return (0);
 }
 
@@ -56,8 +89,9 @@ int	check_textures(t_cub *cub3D)
 			free_all(cub3D, 1, i);
 			return (1);
 		}
-		if (i < 4) 
-			set_texture_pointers(cub3D, &(cub3D->textures->directions[i]), (char *)textures_array[i], i);	
+		if (i < 4)
+			set_texture_pointers(cub3D, &(cub3D->textures->directions[i]),
+				(char *)textures_array[i], i);
 		i++;
 	}
 	if (check_textures_valid(cub3D, "C "))
@@ -71,7 +105,7 @@ int	check_errors(t_cub *cub3D)
 {
 	if (ft_check_file_ext(cub3D->file->filename))
 		return (1);
-	if (check_map_printable(cub3D->file->filename)) //also checks if file exists, if .cub is directory
+	if (check_map_printable(cub3D->file->filename, 0))
 		return (2);
 	if (copy_file(cub3D))
 		return (3);
@@ -83,12 +117,3 @@ int	check_errors(t_cub *cub3D)
 		return (6);
 	return (0);
 }
-
-// /*PRINTING VALUES*/
-// 	for (int i = 0; i < 4; i++)
-// 		ft_dprintf(1, "%s\n", cub3D->textures->directions[i]);
-// 	for (int i = 0; i < 3; i++)
-// 		ft_dprintf(1, "Floor RGB %d. %i\n", i, cub3D->textures->floor[i]);
-// 	for (int i = 0; i < 3; i++)
-// 		ft_dprintf(1, "Ceiling RGB %d. %i\n", i, cub3D->textures->ceiling[i]);
-// /*****************/

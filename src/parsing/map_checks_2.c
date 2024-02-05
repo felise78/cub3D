@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checks_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 17:53:54 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/24 18:51:41 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/02/02 19:29:05 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	replace_floor(char ***grid, int y, int x)
 	if ((*grid)[y][x + 1])
 		replace_floor(grid, y, x + 1);
 	if (x > 0)
-		replace_floor(grid, y, x - 1);	
+		replace_floor(grid, y, x - 1);
 	if ((*grid)[y + 1])
 		replace_floor(grid, y + 1, x);
 	if (y > 0)
@@ -52,20 +52,6 @@ int	check_for_char(char **grid, char c)
 	}
 	return (0);
 }
-
-/*DELETE LATER*/
-void	print_tab(char **tab)
-{
-	int	y;
-
-	y = 0;
-	while (tab[y])
-	{
-		ft_dprintf(1, "%d. %s\n", y, tab[y]);
-		y++;
-	}
-}
-/**/
 
 int	check_for_boundaries(char **grid)
 {
@@ -96,11 +82,35 @@ int	floodfill(t_cub *cub)
 	grid_copy = copy_grid(cub->map->map_grid, cub->map->map_width);
 	if (!grid_copy)
 		return (1);
-	replace_floor(&grid_copy, cub->player->mapY, cub->player->mapX);
+	replace_floor(&grid_copy, cub->player->map_y, cub->player->map_x);
 	if (check_for_char(grid_copy, 'I'))
-		return (free_tab(grid_copy), ft_dprintf(2, "Error: Map not closed\n"), 1);
+	{
+		free_tab(grid_copy);
+		return (ft_dprintf(2, "Error\nMap not closed\n"), 1);
+	}
 	if (check_for_boundaries(grid_copy))
-		return (free_tab(grid_copy), ft_dprintf(2, "Error: Map not closed\n"), 1);
+		return (free_tab(grid_copy),
+			ft_dprintf(2, "Error\nMap not closed\n"), 1);
+	erase_outside_map(cub, grid_copy);
 	free_tab(grid_copy);
 	return (0);
+}
+
+void	erase_outside_map(t_cub *cub, char **grid_copy)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (grid_copy[y])
+	{
+		x = 0;
+		while (grid_copy[y][x])
+		{
+			if (grid_copy[y][x] == '0')
+				cub->map->map_grid[y][x] = ' ';
+			x++;
+		}
+		y++;
+	}
 }

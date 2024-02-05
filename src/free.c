@@ -6,23 +6,66 @@
 /*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:29:34 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/24 15:37:38 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/01/31 18:25:12 by pichatte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 #include "libft.h"
 
+void	free_all_3(t_cub *cub, int level)
+{	
+	int	i;
+
+	if (level > 8)
+		free_tex_imgs(cub);
+	if (level > 7)
+		free(cub->rays);
+	if (level > 6)
+		free(cub->win->gradient);
+	i = 0;
+	while (i < cub->win->h)
+		free(cub->win->index[i++]);
+	free(cub->win->index);
+}
+
+void	free_all_2(t_cub *cub, int level)
+{
+	int	i;
+
+	i = NB_COLORS - 1;
+	if (level > 5)
+		free_all_3(cub, level);
+	if (level > 4)
+	{
+		while (i >= 0)
+		{
+			if (cub->colors[i])
+				free(cub->colors[i--]);
+		}
+		free(cub->colors);
+		mlx_destroy_image(cub->win->mlx_ptr, cub->screen->ptr);
+		free(cub->screen);
+	}
+	if (level > 3)
+	{
+		mlx_destroy_display(cub->win->mlx_ptr);
+		free(cub->win->mlx_ptr);
+		free(cub->win);
+	}
+}
+
 void	free_all(t_cub *cub3D, int level, int directions)
 {
 	int	i;
 
 	if (level > 2)
-		free (cub3D->win);
+		free_all_2(cub3D, level);
 	if (level > 1)
 	{
 		free(cub3D->camera);
-		free(cub3D->player);	
+		free(cub3D->player);
+		free_tab(cub3D->map->map_grid);
 	}
 	if (level > 0)
 	{
@@ -35,9 +78,7 @@ void	free_all(t_cub *cub3D, int level, int directions)
 		}
 	}
 	free (cub3D->file->cub_file);
-	cub3D->file->cub_file = NULL;
 	free_tab(cub3D->file->file_grid);
-	cub3D->file->file_grid = NULL;
 }
 
 void	free_tab(char **tab)
@@ -51,6 +92,22 @@ void	free_tab(char **tab)
 		tab[i] = NULL;
 		i++;
 	}
+	free(tab[i]);
+	tab[i] = NULL;
 	free (tab);
 	tab = NULL;
+}
+
+void	free_tex_imgs(t_cub *cub)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (cub->textures->tex_images[i].ptr)
+			mlx_destroy_image(cub->win->mlx_ptr,
+				cub->textures->tex_images[i].ptr);
+		i++;
+	}
 }

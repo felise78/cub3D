@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pichatte <pichatte@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hemottu <hemottu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 15:53:31 by pichatte          #+#    #+#             */
-/*   Updated: 2024/01/22 15:13:50 by pichatte         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:37:52 by hemottu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,39 @@ char	**copy_grid(char **original, int len)
 		i++;
 	}
 	return (copy);
+}
+
+int	wrong_neighbour(char **grid, int y, int x, char *charset)
+{
+	if (in_charset (grid[y][x + 1], charset)
+		&& (x > 0 && in_charset (grid[y][x - 1], charset))
+		&& (grid[y + 1] && in_charset (grid[y + 1][x], charset))
+		&& (y > 0 && in_charset (grid[y - 1][x], charset)))
+		return (0);
+	return (1);
+}
+
+int	set_len_for_nl(t_cub *cub, char *file)
+{
+	int	len;
+
+	len = cub->file->file_len - 1;
+	while ((len && file[len] == '\n')
+		|| (len && all_whitespace(file + len, '\n')))
+		len--;
+	return (len);
+}
+
+int	all_whitespace(char	*str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != c)
+	{
+		if (str[i] < 9 || (str[i] > 13 && str[i] != ' '))
+			return (0);
+		i++;
+	}
+	return (1);
 }
